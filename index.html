@@ -135,22 +135,45 @@ body::after {
       text-shadow: 0 2px 8px rgba(0,0,0,.3);
       font-weight: 500;
     }
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 14px;
+}
 
-    .nav-buttons button {
+.nav-buttons button {
   width: 68px;
   height: 68px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5); /* branco com 50% de transparência */
+  background: rgba(255, 255, 255, 0.5); /* mesmo lugar, só 50% */
   border: none;
-  display: grid;
-  place-items: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  display: flex;              /* garante que a seta fique no centro */
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,.18);
   cursor: pointer;
-  transition: background 0.3s ease;
 }
 
-.nav-buttons button:hover {
-  background: rgba(255, 255, 255, 0.8); /* um pouco mais visível no toque */
+/* setas continuam iguais */
+.triangle-left,
+.triangle-right {
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.triangle-left {
+  border-width: 12px 14px 12px 0;
+  border-color: transparent #1f3bff transparent transparent;
+  margin-left: 4px;
+}
+
+.triangle-right {
+  border-width: 12px 0 12px 14px;
+  border-color: transparent transparent transparent #1f3bff;
+  margin-right: 4px;
+}
 }
     }
     .triangle-left,
