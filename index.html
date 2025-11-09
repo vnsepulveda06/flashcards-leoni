@@ -292,7 +292,42 @@
       <button class="btn-wrong" id="wrongBtn">❌ Errou</button>
     </div>
   </div>
+.btn-correct {
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
 
+.btn-correct:hover {
+  background: #007a3d;
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-correct:active {
+  transform: scale(0.98);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+.btn-wrong {
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-wrong:hover {
+  background: #cc0000;
+}
   <script>
     const cards = Array.from(document.querySelectorAll(".card"));
     const prevBtn = document.getElementById("prevBtn");
