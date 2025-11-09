@@ -278,7 +278,7 @@
   <!-- sua imagem do logo -->
   <img src="IMG_2691.png" class="footer-img" alt="logo" />
   
- <script>
+<script>
   const cards = Array.from(document.querySelectorAll(".card"));
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
@@ -312,19 +312,43 @@
     showCard(current);
   });
 
+  function flashScore(color) {
+    scoreBox.style.transition = "none";
+    scoreBox.style.background = color;
+    scoreBox.style.color = "#fff";
+    setTimeout(() => {
+      scoreBox.style.transition = "background 0.4s ease, color 0.4s ease";
+      scoreBox.style.background = "rgba(255,255,255,.7)";
+      scoreBox.style.color = "#222";
+    }, 400);
+  }
+
+  function shakeCard() {
+    const activeCard = document.querySelector(".card.active .flip-card");
+    if (!activeCard) return;
+    activeCard.style.transition = "transform 0.1s";
+    activeCard.style.transform = "translateX(-6px)";
+    setTimeout(() => activeCard.style.transform = "translateX(6px)", 100);
+    setTimeout(() => activeCard.style.transform = "translateX(-4px)", 200);
+    setTimeout(() => activeCard.style.transform = "translateX(4px)", 300);
+    setTimeout(() => activeCard.style.transform = "translateX(0)", 400);
+  }
+
   correctBtn.addEventListener("click", () => {
     score += 1;
     scoreBox.textContent = "Pontos: " + score;
     coinSound.currentTime = 0;
     coinSound.play().catch(() => {});
+    flashScore("#22c55e"); // verde
   });
 
   wrongBtn.addEventListener("click", () => {
-    // subtrai 1 ponto, sem deixar negativo
     score = Math.max(0, score - 1);
     scoreBox.textContent = "Pontos: " + score;
     errorSound.currentTime = 0;
     errorSound.play().catch(() => {});
+    flashScore("#ef4444"); // vermelho
+    shakeCard(); // vibração no erro
   });
 
   // mostrar primeiro cartão
