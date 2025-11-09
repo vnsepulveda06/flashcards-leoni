@@ -136,23 +136,22 @@ body::after {
       font-weight: 500;
     }
 
-    .nav-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 22px;
-      margin-top: 14px;
-      z-index: 1;
-    }
     .nav-buttons button {
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      background: #fff;
-      border: none;
-      display: grid;
-      place-items: center;
-      box-shadow: 0 6px 20px rgba(0,0,0,.18);
-      cursor: pointer;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5); /* branco com 50% de transparência */
+  border: none;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.nav-buttons button:hover {
+  background: rgba(255, 255, 255, 0.8); /* um pouco mais visível no toque */
+}
     }
     .triangle-left,
     .triangle-right {
