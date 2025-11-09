@@ -278,7 +278,7 @@
   <!-- sua imagem do logo -->
   <img src="IMG_2691.png" class="footer-img" alt="logo" />
   
-  <script>
+ <script>
   const cards = Array.from(document.querySelectorAll(".card"));
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
@@ -286,9 +286,9 @@
   const wrongBtn = document.getElementById("wrongBtn");
   const scoreBox = document.getElementById("scoreBox");
 
-  // Sons de acerto e erro
+  // Sons
   const coinSound = new Audio("coin.mp3");
-  const errorSound = new Audio("Error1.mp3"); // som do erro
+  const errorSound = new Audio("Error1.mp3");
 
   let current = 0;
   let score = 0;
@@ -320,13 +320,15 @@
   });
 
   wrongBtn.addEventListener("click", () => {
+    // subtrai 1 ponto, sem deixar negativo
+    score = Math.max(0, score - 1);
+    scoreBox.textContent = "Pontos: " + score;
     errorSound.currentTime = 0;
     errorSound.play().catch(() => {});
-    scoreBox.textContent = "Pontos: " + score;
   });
 
   // mostrar primeiro cartão
   showCard(current);
 </script>
-</body>
+</fbody>
 </html>
