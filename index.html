@@ -5,148 +5,54 @@
   <title>FLASHCARDS DO LEONI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --bg: #e5e7eb;
-      --card: #ffffff;
-      --highlight: #eef2ff;
-      --accent: #6366f1;
-      --green: #22c55e;
-      --red: #ef4444;
-    }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-      background: var(--bg);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      padding: 16px;
-    }
-    header {
-      width: 100%;
-      max-width: 460px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    h1 {
-      margin: 0;
-      font-size: 1.05rem;
-      letter-spacing: 1px;
-    }
-    .score {
-      background: #fff;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: .8rem;
-      box-shadow: 0 6px 20px rgba(15,23,42,.08);
-    }
-    .sub {
-      margin: 0;
-      font-size: .75rem;
-      color: #6b7280;
-      text-align: left;
-      width: 100%;
-      max-width: 460px;
-    }
-    .wrapper {
-      width: 100%;
-      max-width: 460px;
-    }
-    .card-area {
-      position: relative;
-      width: 100%;
-      min-height: 180px;
-    }
-    .card {
-      display: none;
-    }
-    .card.active {
-      display: block;
-    }
-    .flip-container {
-      position: relative;
-      width: 100%;
-      min-height: 170px;
-      perspective: 1000px;
-    }
-    .flip-container input[type="checkbox"] {
-      display: none;
-    }
-    .flip-card {
-      width: 100%;
-      min-height: 170px;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform .6s;
-    }
-    .flip-container input[type="checkbox"]:checked + .flip-card {
-      transform: rotateY(180deg);
-    }
-    .face {
-      position: absolute;
-      inset: 0;
-      background: var(--card);
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(15,23,42,0.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 14px;
-      line-height: 1.4;
-      backface-visibility: hidden;
-    }
-    .face.back {
-      background: var(--highlight);
-      transform: rotateY(180deg);
-    }
-
-    .nav-buttons {
-      margin-top: 14px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-    .nav-buttons button {
-      width: 48px;
-      height: 48px;
-      background: #fff;
-      border: none;
-      border-radius: 999px;
-      font-size: 1.4rem;
-      box-shadow: 0 8px 20px rgba(15,23,42,0.08);
-      cursor: pointer;
-    }
-
-    .answer-buttons {
-      margin-top: 10px;
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .answer-buttons button {
-      border: none;
-      border-radius: 999px;
-      padding: 6px 14px;
-      font-size: .78rem;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-    }
-    .btn-correct { background: var(--green); }
-    .btn-wrong { background: var(--red); }
-    .counter {
-      font-size: .7rem;
-      text-align: center;
-      color: #6b7280;
-      margin-top: 4px;
-    }
+  :root {
+    --card: #ffffff;
+    --highlight: rgba(255, 255, 255, 0.28);
+    --accent: #1f3bff;
+    --green: #22c55e;
+    --red: #ef4444;
+  }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    /* AQUI É O FUNDO NOVO */
+    min-height: 100vh;
+    background: linear-gradient(180deg, #0f5bd8 0%, #31b45a 50%, #f7d047 100%);
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+  }
+  /* deixa o cartão flutuando em cima do fundo colorido */
+  .wrapper,
+  header,
+  .sub {
+    width: 100%;
+    max-width: 460px;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0,0,0,.2);
+  }
+  .sub {
+    color: rgba(255,255,255,.9);
+  }
+  .score {
+    background: rgba(255,255,255,.7);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: .8rem;
+    box-shadow: 0 6px 20px rgba(15,23,42,.08);
+  }
+  .flip-container .face,
+  .flip-container .face.back {
+    background: #fff;
+  }
   </style>
 </head>
 <body>
