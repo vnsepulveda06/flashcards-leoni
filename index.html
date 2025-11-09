@@ -3,163 +3,320 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flashcards de Estudo</title>
-
+  <title>FLASHCARDS DO LEONI</title>
   <style>
     :root {
-      --green: #28a745;
-      --red: #dc3545;
-      --bg: linear-gradient(180deg, #00c6ff, #0072ff);
+      --card: #dcdcdc;              /* cinza mais neutro */
+      --highlight: rgba(255,255,255,.3);
+      --accent: #1f3bff;
+      --green: #22c55e;
+      --red: #ef4444;
     }
 
     body {
-      font-family: "Poppins", sans-serif;
-      background: var(--bg);
-      color: #333;
       margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      /* fundo que você gostou */
+      min-height: 100vh;
+      background: linear-gradient(180deg, #007dd8 0%, #009e91 50%, #d6c240 100%);
+      background-attachment: fixed;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
-      overflow: hidden;
+      gap: 14px;
+      padding: 16px;
+    }
+
+    /* largura máxima pra tudo ficar centralizado */
+    .wrapper,
+    header,
+    .sub {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      text-shadow: 0 2px 10px rgba(0,0,0,.3);
+    }
+    h1 {
+      font-size: clamp(1.6rem, 5vw, 2.3rem);
+      margin: 0;
+      line-height: 1;
+    }
+    .sub {
+      color: rgba(255,255,255,.9);
+      margin-top: 4px;
+      font-size: .9rem;
+    }
+    .score {
+      background: rgba(255,255,255,.7);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: .8rem;
+      box-shadow: 0 6px 20px rgba(15,23,42,.15);
+      color: #222;
+      font-weight: 600;
+    }
+
+    /* área que segura o cartão e os outros */
+    .card-area {
+      position: relative;
+      width: 100%;
+      margin-top: 12px;
     }
 
     .card {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-      padding: 25px;
-      width: 85%;
-      max-width: 500px;
+      display: none;
+    }
+    .card.active {
+      display: block;
+    }
+
+    /* FLIP */
+    .flip-container {
+      display: block;
+      width: 100%;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+    .flip-container input {
+      display: none;
+    }
+    .flip-card {
+      position: relative;
+      width: 100%;
+      transform-style: preserve-3d;
+      transition: transform .5s ease;
+    }
+    .flip-container input:checked + .flip-card {
+      transform: rotateY(180deg);
+    }
+
+    .flip-container .face,
+    .flip-container .face.back {
+      position: relative;
+      width: 100%;
+      background: var(--card);       /* AQUI fica o cinza */
+      border-radius: 18px;
+      min-height: 150px;
+      padding: 26px 22px;
+      box-shadow: 0 12px 35px rgba(0,0,0,.12);
+      backface-visibility: hidden;
+      font-size: 1.05rem;
+      line-height: 1.45;
+      box-sizing: border-box;
+    }
+    .flip-container .face.back {
+      position: absolute;
+      inset: 0;
+      transform: rotateY(180deg);
+    }
+
+    .counter {
       text-align: center;
-      transition: transform 0.4s ease;
+      margin-top: 10px;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,.3);
+      font-weight: 500;
     }
 
-    .card h2 {
-      font-size: 1.4em;
-      margin-bottom: 20px;
-    }
-
-    .controls {
-      margin-top: 20px;
+    /* botões de navegação (setinhas) */
+    .nav-buttons {
       display: flex;
       justify-content: center;
-      gap: 15px;
+      gap: 22px;
+      margin-top: 14px;
     }
-
-    button {
+    .nav-buttons button {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #fff;
       border: none;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,.18);
       cursor: pointer;
-      font-weight: 600;
-      font-size: 16px;
-      padding: 10px 18px;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      color: #fff;
+    }
+    .triangle-left,
+    .triangle-right {
+      width: 0;
+      height: 0;
+      border-style: solid;
+    }
+    .triangle-left {
+      border-width: 12px 14px 12px 0;
+      border-color: transparent #1f3bff transparent transparent;
+      margin-left: 4px;
+    }
+    .triangle-right {
+      border-width: 12px 0 12px 14px;
+      border-color: transparent transparent transparent #1f3bff;
+      margin-right: 4px;
     }
 
-    .btn-prev,
-    .btn-next {
-      background-color: #007bff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    /* botões de acertou/errou */
+    .answer-buttons {
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
     }
-
-    .btn-prev:hover,
-    .btn-next:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
-    }
-
-    /* ✅ Botão "Acertou" */
-    .btn-correct {
-      background: var(--green);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    }
-
-    .btn-correct:hover {
-      background: #007a3d;
-      transform: scale(1.05);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-correct:active {
-      transform: scale(0.95);
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-    }
-
-    /* ❌ Botão "Errou" */
+    .btn-correct,
     .btn-wrong {
-      background: var(--red);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    }
-
-    .btn-wrong:hover {
-      background: #cc0000;
-      transform: scale(1.05);
-    }
-
-    .score-box {
-      margin-top: 25px;
-      font-size: 18px;
-      font-weight: 600;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 24px 12px;
       color: #fff;
+      font-weight: 600;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      font-size: 1rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,.18);
+      cursor: pointer;
+    }
+    .btn-correct {
+      background: #059669; /* um verde mais escuro pra não sumir no fundo */
+    }
+    .btn-wrong {
+      background: #ef4444;
+    }
+
+    /* imagem fixa embaixo */
+    .footer-img {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      opacity: 0.95;
+      pointer-events: none;
     }
   </style>
 </head>
-
 <body>
-  <div class="card active">
-    <h2>1) O que são meninges?</h2>
-    <p>São as membranas que envolvem o cérebro e a medula espinhal, protegendo o sistema nervoso central.</p>
+  <header>
+    <div>
+      <h1>FLASHCARDS<br>DO LEONI</h1>
+      <p class="sub">Toque no cartão para ver a resposta, depois marque se ele acertou ou errou.</p>
+    </div>
+    <div class="score" id="scoreBox">Pontos: 0</div>
+  </header>
+
+  <div class="wrapper">
+    <div class="card-area" id="cardArea">
+      <!-- CARTÃO 1 -->
+      <div class="card active" data-index="0">
+        <label class="flip-container">
+          <input type="checkbox" />
+          <div class="flip-card">
+            <div class="face">
+              1) O que são meninges?
+            </div>
+            <div class="face back">
+              São três membranas que envolvem e protegem o encéfalo e a medula espinhal.
+            </div>
+          </div>
+        </label>
+        <p class="counter">Cartão 1 de 3</p>
+      </div>
+
+      <!-- CARTÃO 2 -->
+      <div class="card" data-index="1">
+        <label class="flip-container">
+          <input type="checkbox" />
+          <div class="flip-card">
+            <div class="face">
+              2) Qual a função do cerebelo?
+            </div>
+            <div class="face back">
+              Coordenar os movimentos e manter o equilíbrio do corpo.
+            </div>
+          </div>
+        </label>
+        <p class="counter">Cartão 2 de 3</p>
+      </div>
+
+      <!-- CARTÃO 3 -->
+      <div class="card" data-index="2">
+        <label class="flip-container">
+          <input type="checkbox" />
+          <div class="flip-card">
+            <div class="face">
+              3) Sistema nervoso periférico é formado por:
+            </div>
+            <div class="face back">
+              Nervos e gânglios nervosos (somático e autônomo).
+            </div>
+          </div>
+        </label>
+        <p class="counter">Cartão 3 de 3</p>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button id="prevBtn" aria-label="cartão anterior">
+        <div class="triangle-left"></div>
+      </button>
+      <button id="nextBtn" aria-label="próximo cartão">
+        <div class="triangle-right"></div>
+      </button>
+    </div>
+
+    <div class="answer-buttons">
+      <button class="btn-correct" id="correctBtn">✅ Acertou</button>
+      <button class="btn-wrong" id="wrongBtn">❌ Errou</button>
+    </div>
   </div>
 
-  <div class="controls">
-    <button class="btn-prev">⏮️</button>
-    <button class="btn-next">⏭️</button>
-  </div>
-
-  <div class="controls">
-    <button class="btn-correct" id="correctBtn">✅ Acertou</button>
-    <button class="btn-wrong" id="wrongBtn">❌ Errou</button>
-  </div>
-
-  <div class="score-box" id="scoreBox">Pontos: 0</div>
+  <!-- sua imagem do logo que você subiu no repo -->
+  <img src="IMG_2691.png" class="footer-img" alt="logo" />
 
   <script>
-    const cards = Array.from(document.querySelectorAll('.card'));
-    const prevBtn = document.querySelector('.btn-prev');
-    const nextBtn = document.querySelector('.btn-next');
-    const correctBtn = document.getElementById('correctBtn');
-    const wrongBtn = document.getElementById('wrongBtn');
-    const scoreBox = document.getElementById('scoreBox');
+    const cards = Array.from(document.querySelectorAll(".card"));
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const correctBtn = document.getElementById("correctBtn");
+    const wrongBtn = document.getElementById("wrongBtn");
+    const scoreBox = document.getElementById("scoreBox");
 
     let current = 0;
     let score = 0;
 
     function showCard(index) {
-      cards.forEach((c) => c.classList.remove('active'));
-      cards[index].classList.add('active');
+      cards.forEach((c, i) => {
+        c.classList.remove("active");
+        // desmarca o flip ao trocar de cartão
+        const chk = c.querySelector("input[type='checkbox']");
+        if (chk) chk.checked = false;
+      });
+      cards[index].classList.add("active");
     }
 
-    prevBtn.addEventListener('click', () => {
+    prevBtn.addEventListener("click", () => {
       current = (current - 1 + cards.length) % cards.length;
       showCard(current);
     });
 
-    nextBtn.addEventListener('click', () => {
+    nextBtn.addEventListener("click", () => {
       current = (current + 1) % cards.length;
       showCard(current);
     });
 
-    correctBtn.addEventListener('click', () => {
-      score++;
-      scoreBox.textContent = `Pontos: ${score}`;
+    correctBtn.addEventListener("click", () => {
+      score += 1;
+      scoreBox.textContent = "Pontos: " + score;
     });
 
-    wrongBtn.addEventListener('click', () => {
+    wrongBtn.addEventListener("click", () => {
       score = Math.max(0, score - 1);
-      scoreBox.textContent = `Pontos: ${score}`;
+      scoreBox.textContent = "Pontos: " + score;
     });
   </script>
 </body>
