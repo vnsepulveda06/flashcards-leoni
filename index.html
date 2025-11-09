@@ -279,54 +279,54 @@
   <img src="IMG_2691.png" class="footer-img" alt="logo" />
   
   <script>
-    const cards = Array.from(document.querySelectorAll(".card"));
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const correctBtn = document.getElementById("correctBtn");
-    const wrongBtn = document.getElementById("wrongBtn");
-    const scoreBox = document.getElementById("scoreBox");
+  const cards = Array.from(document.querySelectorAll(".card"));
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const correctBtn = document.getElementById("correctBtn");
+  const wrongBtn = document.getElementById("wrongBtn");
+  const scoreBox = document.getElementById("scoreBox");
 
-    // Som de acerto (mesmo nome que você subiu: moeda.mp3)
-    const coinSound = new Audio("coin.mp3");
+  // Sons de acerto e erro
+  const coinSound = new Audio("coin.mp3");
+  const errorSound = new Audio("Error1.mp3"); // som do erro
 
-    let current = 0;
-    let score = 0;
+  let current = 0;
+  let score = 0;
 
-    function showCard(index) {
-      cards.forEach((card) => {
-        card.classList.remove("active");
-        const chk = card.querySelector("input[type='checkbox']");
-        if (chk) chk.checked = false;
-      });
-      cards[index].classList.add("active");
-    }
-
-    prevBtn.addEventListener("click", () => {
-      current = (current - 1 + cards.length) % cards.length;
-      showCard(current);
+  function showCard(index) {
+    cards.forEach((card) => {
+      card.classList.remove("active");
+      const chk = card.querySelector("input[type='checkbox']");
+      if (chk) chk.checked = false;
     });
+    cards[index].classList.add("active");
+  }
 
-    nextBtn.addEventListener("click", () => {
-      current = (current + 1) % cards.length;
-      showCard(current);
-    });
-
-    correctBtn.addEventListener("click", () => {
-      score += 1;
-      scoreBox.textContent = "Pontos: " + score;
-      coinSound.currentTime = 0;
-      // iPhone às vezes bloqueia, então tratamos o erro silenciosamente
-      coinSound.play().catch(() => {});
-    });
-
-    wrongBtn.addEventListener("click", () => {
-      // se você quiser tirar ponto no erro, é aqui
-      // score = Math.max(0, score - 1);
-      scoreBox.textContent = "Pontos: " + score;
-    });
-
-    // mostrar primeiro cartão
+  prevBtn.addEventListener("click", () => {
+    current = (current - 1 + cards.length) % cards.length;
     showCard(current);
-  </script>
+  });
+
+  nextBtn.addEventListener("click", () => {
+    current = (current + 1) % cards.length;
+    showCard(current);
+  });
+
+  correctBtn.addEventListener("click", () => {
+    score += 1;
+    scoreBox.textContent = "Pontos: " + score;
+    coinSound.currentTime = 0;
+    coinSound.play().catch(() => {});
+  });
+
+  wrongBtn.addEventListener("click", () => {
+    errorSound.currentTime = 0;
+    errorSound.play().catch(() => {});
+    scoreBox.textContent = "Pontos: " + score;
+  });
+
+  // mostrar primeiro cartão
+  showCard(current);
+</script>
 </body>
 </html>
