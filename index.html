@@ -138,24 +138,36 @@ body::after {
 .nav-buttons {
   display: flex;
   justify-content: center;
-  gap: 22px;
-  margin-top: 14px;
+  align-items: center;
+  gap: 26px; /* espaço igual entre as setas */
+  margin-top: 16px;
+  position: relative;
+  z-index: 2;
 }
 
 .nav-buttons button {
   width: 68px;
   height: 68px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5); /* mesmo lugar, só 50% */
+  background: rgba(255, 255, 255, 0.5); /* translúcido */
   border: none;
-  display: flex;              /* garante que a seta fique no centro */
+  display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 20px rgba(0,0,0,.18);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
   cursor: pointer;
+  transition: background 0.3s ease, transform 0.1s ease;
+  position: relative;
 }
 
-/* setas continuam iguais */
+.nav-buttons button:hover {
+  background: rgba(255, 255, 255, 0.75); /* leve destaque ao toque */
+}
+
+.nav-buttons button:active {
+  transform: scale(0.95); /* efeito de clique suave */
+}
+
 .triangle-left,
 .triangle-right {
   width: 0;
@@ -174,32 +186,14 @@ body::after {
   border-color: transparent transparent transparent #1f3bff;
   margin-right: 4px;
 }
-}
-    }
-    .triangle-left,
-    .triangle-right {
-      width: 0;
-      height: 0;
-      border-style: solid;
-    }
-    .triangle-left {
-      border-width: 12px 14px 12px 0;
-      border-color: transparent #1f3bff transparent transparent;
-      margin-left: 4px;
-    }
-    .triangle-right {
-      border-width: 12px 0 12px 14px;
-      border-color: transparent transparent transparent #1f3bff;
-      margin-right: 4px;
-    }
 
-    .answer-buttons {
-      margin-top: 14px;
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      z-index: 1;
+.answer-buttons {
+  margin-top: 20px; /* espaçamento mais equilibrado abaixo das setas */
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
     }
     .btn-correct,
     .btn-wrong {
