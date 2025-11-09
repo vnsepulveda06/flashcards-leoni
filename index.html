@@ -318,6 +318,53 @@
       score = Math.max(0, score - 1);
       scoreBox.textContent = "Pontos: " + score;
     });
+   <script>
+  const cards = Array.from(document.querySelectorAll(".card"));
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+  const correctBtn = document.getElementById("correct");
+  const wrongBtn = document.getElementById("wrong");
+  const scoreBox = document.getElementById("score");
+
+  // 🎵 Som de acerto
+  const coinSound = new Audio("moeda.mp3");
+
+  let current = 0;
+  let score = 0;
+
+  function showCard(index) {
+    cards.forEach((c) => {
+      c.classList.remove("active");
+      const chk = c.querySelector("input");
+      if (chk) chk.checked = false;
+    });
+    cards[index].classList.add("active");
+  }
+
+  prevBtn.addEventListener("click", () => {
+    current = (current - 1 + cards.length) % cards.length;
+    showCard(current);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    current = (current + 1) % cards.length;
+    showCard(current);
+  });
+
+  correctBtn.addEventListener("click", () => {
+    score++;
+    scoreBox.textContent = `Pontos: ${score}`;
+    coinSound.currentTime = 0; // Reinicia o som se clicar rápido
+    coinSound.play(); // 🔊 toca o som da moedinha
+  });
+
+  wrongBtn.addEventListener("click", () => {
+    // Mantém a pontuação (sem diminuir)
+    scoreBox.textContent = `Pontos: ${score}`;
+  });
+
+  showCard(current);
+</script> 
   </script>
 </body>
 </html>
