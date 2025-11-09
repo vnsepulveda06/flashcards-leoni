@@ -7,18 +7,14 @@
   <style>
     :root {
       --card: #dcdcdc;
-      --highlight: rgba(255,255,255,.3);
       --accent: #1f3bff;
-      --green: #22c55e;
-      --red: #ef4444;
     }
 
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       min-height: 100vh;
-      background:
-        linear-gradient(180deg, #007dd8 0%, #009e91 50%, #d6c240 100%);
+      background: linear-gradient(180deg, #007dd8 0%, #009e91 50%, #d6c240 100%);
       background-attachment: fixed;
       display: flex;
       flex-direction: column;
@@ -29,7 +25,7 @@
       overflow-x: hidden;
     }
 
-    /* LOGO FIXO NO FUNDO */
+    /* logo no fundo */
     body::after {
       content: "";
       position: fixed;
@@ -83,10 +79,8 @@
     }
 
     .card-area {
-      position: relative;
       width: 100%;
       margin-top: 12px;
-      z-index: 1;
     }
 
     .card {
@@ -96,28 +90,25 @@
       display: block;
     }
 
+    /* flip */
     .flip-container {
       display: block;
       width: 100%;
       perspective: 1000px;
       cursor: pointer;
     }
-
     .flip-container input {
       display: none;
     }
-
     .flip-card {
       position: relative;
       width: 100%;
       transform-style: preserve-3d;
       transition: transform .5s ease;
     }
-
     .flip-container input:checked + .flip-card {
       transform: rotateY(180deg);
     }
-
     .flip-container .face,
     .flip-container .face.back {
       position: relative;
@@ -132,7 +123,6 @@
       line-height: 1.45;
       box-sizing: border-box;
     }
-
     .flip-container .face.back {
       position: absolute;
       inset: 0;
@@ -154,7 +144,6 @@
       margin-top: 14px;
       z-index: 1;
     }
-
     .nav-buttons button {
       width: 68px;
       height: 68px;
@@ -166,20 +155,17 @@
       box-shadow: 0 6px 20px rgba(0,0,0,.18);
       cursor: pointer;
     }
-
     .triangle-left,
     .triangle-right {
       width: 0;
       height: 0;
       border-style: solid;
     }
-
     .triangle-left {
       border-width: 12px 14px 12px 0;
       border-color: transparent #1f3bff transparent transparent;
       margin-left: 4px;
     }
-
     .triangle-right {
       border-width: 12px 0 12px 14px;
       border-color: transparent transparent transparent #1f3bff;
@@ -194,7 +180,6 @@
       flex-wrap: wrap;
       z-index: 1;
     }
-
     .btn-correct,
     .btn-wrong {
       border: none;
@@ -209,11 +194,9 @@
       box-shadow: 0 6px 20px rgba(0,0,0,.18);
       cursor: pointer;
     }
-
     .btn-correct {
       background: #059669;
     }
-
     .btn-wrong {
       background: #ef4444;
     }
@@ -230,51 +213,7 @@
 
   <div class="wrapper">
     <div class="card-area" id="cardArea">
-      <!-- CARTÕES -->
-      <div class="card active" data-index="0">
-        <label class="flip-container">
-          <input type="checkbox" />
-          <div class="flip-card">
-            <div class="face">
-              1) O que são meninges?
-            </div>
-            <div class="face back">
-              São três membranas que envolvem e protegem o encéfalo e a medula espinhal.
-            </div>
-          </div>
-        </label>
-        <p class="counter">Cartão 1 de 3</p>
-      </div>
-
-      <div class="card" data-index="1">
-        <label class="flip-container">
-          <input type="checkbox" />
-          <div class="flip-card">
-            <div class="face">
-              2) Qual a função do cerebelo?
-            </div>
-            <div class="face back">
-              Coordenar os movimentos e manter o equilíbrio do corpo.
-            </div>
-          </div>
-        </label>
-        <p class="counter">Cartão 2 de 3</p>
-      </div>
-
-      <div class="card" data-index="2">
-        <label class="flip-container">
-          <input type="checkbox" />
-          <div class="flip-card">
-            <div class="face">
-              3) Sistema nervoso periférico é formado por:
-            </div>
-            <div class="face back">
-              Nervos e gânglios nervosos (somático e autônomo).
-            </div>
-          </div>
-        </label>
-        <p class="counter">Cartão 3 de 3</p>
-      </div>
+      <!-- os 50 cards vão ser colocados via JS -->
     </div>
 
     <div class="nav-buttons">
@@ -293,6 +232,240 @@
   </div>
 
   <script>
+    // 1. TODAS AS PERGUNTAS
+    const flashcards = [
+      // I. IMPÉRIO BIZANTINO (15)
+      {
+        frente: "1) Qual imperador bizantino viveu o auge do império (527-565) e buscou reunificar o Império Romano?\n(A) Constantino\n(B) Teodósio\n(C) Justiniano\n(D) Carlos Magno",
+        verso: "C) Justiniano"
+      },
+      {
+        frente: "2) Qual era o nome da capital do Império Bizantino, estratégica por ficar entre a Europa e a Ásia?",
+        verso: "Constantinopla"
+      },
+      {
+        frente: "3) Qual foi a grande compilação de leis romanas criada pelo imperador Justiniano, essencial para o Direito Moderno?",
+        verso: "Código Justiniano (Corpus Juris Civilis)"
+      },
+      {
+        frente: "4) Qual revolta popular, causada pela alta cobrança de impostos, quase destruiu Constantinopla no governo de Justiniano?\n(A) Revolta da Lã\n(B) Revolta de Nika\n(C) Revolta dos Burgueses\n(D) Revolta dos Iconoclastas",
+        verso: "B) Revolta de Nika"
+      },
+      {
+        frente: "5) Qual o nome da doutrina que dizia que o imperador era o centro do Estado e da religião, representando Deus na Terra?",
+        verso: "Cesaropapismo"
+      },
+      {
+        frente: "6) A arte bizantina se destacou principalmente pela utilização de:\n(A) Vitrais góticos e arcos ogivais\n(B) Afrescos gigantes e esculturas em mármore\n(C) Mosaicos e ícones religiosos\n(D) Pinturas a óleo e obras realistas",
+        verso: "C) Mosaicos e ícones religiosos"
+      },
+      {
+        frente: "7) O movimento iconoclasta, promovido pelo imperador Leão III, pregava a destruição de quê?",
+        verso: "Imagens de santos e figuras religiosas (ícones)"
+      },
+      {
+        frente: "8) Qual evento em 1054 marcou a separação entre a Igreja Católica Romana e a Igreja Ortodoxa Grega?\n(A) O Tratado de Verdun\n(B) A Queda de Constantinopla\n(C) O Grande Cisma do Oriente\n(D) A Peste Negra",
+        verso: "C) O Grande Cisma do Oriente"
+      },
+      {
+        frente: "9) Qual o nome da famosa igreja, símbolo da arquitetura bizantina, que se destaca por sua grande cúpula?",
+        verso: "Basílica de Santa Sofia (Hagia Sophia)"
+      },
+      {
+        frente: "10) O Império Bizantino era a continuação de qual parte do antigo Império Romano?\n(A) Império Romano do Ocidente\n(B) Império Romano Oriental",
+        verso: "B) Império Romano Oriental"
+      },
+      {
+        frente: "11) Qual povo conquistou Constantinopla em 1453, marcando o fim da Idade Média?",
+        verso: "Turcos otomanos"
+      },
+      {
+        frente: "12) Qual movimento cultural posterior foi influenciado pela migração de intelectuais bizantinos após a queda de Constantinopla?\n(A) Iluminismo\n(B) Renascimento\n(C) Classicismo\n(D) Reforma Protestante",
+        verso: "B) Renascimento"
+      },
+      {
+        frente: "13) O que são os mosaicos na arte bizantina?",
+        verso: "Pequenas peças coloridas (vidro/pedra) incrustadas formando imagens religiosas."
+      },
+      {
+        frente: "14) A queda de Constantinopla (1453) marca o fim de qual período histórico?",
+        verso: "Idade Média"
+      },
+      {
+        frente: "15) Verdadeiro ou Falso: O Código Justiniano legitimava o poder quase ilimitado do imperador.",
+        verso: "Verdadeiro (V)"
+      },
+
+      // II. ALTA IDADE MÉDIA E FEUDALISMO (25)
+      {
+        frente: "16) O feudalismo consiste num conjunto de práticas baseadas principalmente em que tipo de vínculos?\n(A) Vínculos de homem a homem\n(B) Vínculos de mercado e comércio\n(C) Vínculos nacionais e estatais",
+        verso: "A) Vínculos de homem a homem"
+      },
+      {
+        frente: "17) O feudalismo se fortaleceu após qual evento que fragmentou o Império Carolíngio e levou à descentralização do poder?\n(A) O Código de Justiniano\n(B) O Tratado de Verdun\n(C) A Guerra dos Cem Anos\n(D) A Revolta de Nika",
+        verso: "B) O Tratado de Verdun"
+      },
+      {
+        frente: "18) O feudo, unidade de produção e centro das relações sociais, era dividido em três partes. Quais são elas?",
+        verso: "Manso senhorial, manso servil e manso comunal."
+      },
+      {
+        frente: "19) Qual era a função principal do manso senhorial dentro do feudo?\n(A) Produção destinada ao sustento do servo.\n(B) Produção destinada ao senhor feudal.\n(C) Terras de uso comum para pastagens.",
+        verso: "B) Produção destinada ao senhor feudal."
+      },
+      {
+        frente: "20) O manso servil era a parte destinada a quem?",
+        verso: "Aos servos/camponeses, para seu sustento."
+      },
+      {
+        frente: "21) O manso comunal era de uso coletivo para qual fim?",
+        verso: "Pastagens, bosques, água e coleta de madeira."
+      },
+      {
+        frente: "22) Além das heranças romanas e germânicas, qual fator foi decisivo na formação do Ocidente Medieval, ligando romanos e germanos?\n(A) O Islamismo\n(B) O Cristianismo\n(C) O Paganismo",
+        verso: "B) O Cristianismo"
+      },
+      {
+        frente: "23) Qual era a classe social da sociedade feudal cuja função era “orar”?",
+        verso: "Clero"
+      },
+      {
+        frente: "24) Qual era a classe social da sociedade feudal cuja função era “guerrear”?",
+        verso: "Nobreza"
+      },
+      {
+        frente: "25) Qual era a classe social que compunha a maioria da população, trabalhando em regime de servidão?",
+        verso: "Servos e camponeses"
+      },
+      {
+        frente: "26) A sociedade feudal era hierárquica e estática. O que significa ser uma sociedade estática?",
+        verso: "Sem mobilidade social: a pessoa nascia e morria na mesma condição."
+      },
+      {
+        frente: "27) Qual tributo obrigava o servo a trabalhar alguns dias da semana nas terras do senhor (manso senhorial)?\n(A) Talha\n(B) Banalidade\n(C) Corveia\n(D) Mão-morta",
+        verso: "C) Corveia"
+      },
+      {
+        frente: "28) Qual tributo era a entrega de parte da produção do servo ao nobre?\n(A) Talha\n(B) Banalidade\n(C) Corveia\n(D) Capitação",
+        verso: "A) Talha"
+      },
+      {
+        frente: "29) O tributo pago pelo uso de instrumentos do feudo (moinho, forno, pontes) era chamado de:\n(A) Talha\n(B) Banalidade\n(C) Corveia\n(D) Capitação",
+        verso: "B) Banalidade"
+      },
+      {
+        frente: "30) Qual tributo era a taxa paga em caso de casamento entre servos de feudos diferentes?\n(A) Talha\n(B) Formariage\n(C) Banalidade",
+        verso: "B) Formariage"
+      },
+      {
+        frente: "31) A cultura medieval era dominada pela visão de mundo em que Deus era o centro de tudo, chamada de:\n(A) Antropocentrismo\n(B) Teocentrismo\n(C) Heliocentrismo",
+        verso: "B) Teocentrismo"
+      },
+      {
+        frente: "32) A principal forma de troca comercial na economia feudal era o comércio:\n(A) Baseado na moeda (monetário)\n(B) De trocas (in-natura)",
+        verso: "B) De trocas (in-natura)"
+      },
+      {
+        frente: "33) O que era a relação de vassalagem no feudalismo?",
+        verso: "Relação entre dois nobres em que um (vassalo) jurava fidelidade e serviços ao outro (suserano) em troca de um feudo."
+      },
+      {
+        frente: "34) O nobre que cedia a terra era chamado de __________.",
+        verso: "Suserano"
+      },
+      {
+        frente: "35) O nobre que recebia a terra e jurava fidelidade era chamado de __________.",
+        verso: "Vassalo"
+      },
+      {
+        frente: "36) O que era a felonia na relação de suzerania e vassalagem?\n(A) O ato de jurar fidelidade.\n(B) O ritual de entrega da terra.\n(C) A quebra dos laços de fidelidade.",
+        verso: "C) A quebra dos laços de fidelidade."
+      },
+      {
+        frente: "37) O que era o sistema do colonato (herança romana)?",
+        verso: "O trabalhador era obrigado a entregar parte da colheita em troca do uso de uma parcela da terra."
+      },
+      {
+        frente: "38) O sistema feudal é caracterizado pela descentralização ou centralização do poder político?",
+        verso: "Descentralização"
+      },
+      {
+        frente: "39) O que o rei franco Carlos Magno buscou incentivar na cultura e educação, conhecido como Renascimento Carolíngio?",
+        verso: "A cultura e a educação (preservação de obras clássicas)."
+      },
+      {
+        frente: "40) Verdadeiro ou Falso: A vida e a economia se concentraram principalmente no campo (ruralização) durante a Alta Idade Média.",
+        verso: "Verdadeiro (V)"
+      },
+
+      // III. BAIXA IDADE MÉDIA E CRISE (10)
+      {
+        frente: "41) O aumento da população e as melhorias nas técnicas agrícolas da Baixa Idade Média estimularam o ressurgimento de quais atividades?",
+        verso: "O comércio e o crescimento das cidades (burgos)."
+      },
+      {
+        frente: "42) O renascimento do comércio e o crescimento das cidades provocaram o surgimento de:\n(A) Nobreza\n(B) Burguesia\n(C) Monarquia\n(D) Aristocracia",
+        verso: "B) Burguesia"
+      },
+      {
+        frente: "43) As cidades medievais que surgiram com o comércio eram chamadas de:",
+        verso: "Burgos"
+      },
+      {
+        frente: "44) O uso da moeda na Baixa Idade Média contribuiu para o fortalecimento ou para o enfraquecimento do feudalismo?",
+        verso: "Para o enfraquecimento do feudalismo."
+      },
+      {
+        frente: "45) Cite os três principais fatores que causaram a grande Crise do Século XIV.",
+        verso: "Fome, Peste Negra e Guerras (Guerra dos Cem Anos)."
+      },
+      {
+        frente: "46) A Peste Negra era uma doença transmitida por qual animal/inseto?\n(A) Mosquito\n(B) Pulga do rato\n(C) Morcego\n(D) Pombo",
+        verso: "B) Pulga do rato"
+      },
+      {
+        frente: "47) A Peste Negra dizimou cerca de quanto da população europeia?",
+        verso: "Cerca de 1/3 (um terço) da população."
+      },
+      {
+        frente: "48) O conflito conhecido como Guerra dos Cem Anos foi travado entre quais países?",
+        verso: "França e Inglaterra."
+      },
+      {
+        frente: "49) Qual o nome das revoltas camponesas que ocorreram na Crise do Século XIV?\n(A) Revolta de Nika\n(B) Cruzadas\n(C) Jacqueries\n(D) Invasões Bárbaras",
+        verso: "C) Jacqueries"
+      },
+      {
+        frente: "50) O que as revoltas camponesas (Jacqueries) questionavam, colaborando para a disseminação de qual tipo de trabalho?",
+        verso: "Questionavam a exploração servil e ajudaram a disseminar o trabalho livre e assalariado."
+      }
+    ];
+
+    // 2. GERAR OS CARDS NO HTML
+    const cardArea = document.getElementById("cardArea");
+    flashcards.forEach((fc, i) => {
+      const cardDiv = document.createElement("div");
+      cardDiv.className = "card" + (i === 0 ? " active" : "");
+      cardDiv.dataset.index = i;
+
+      cardDiv.innerHTML = `
+        <label class="flip-container">
+          <input type="checkbox" />
+          <div class="flip-card">
+            <div class="face">
+              ${fc.frente.replace(/\n/g, "<br>")}
+            </div>
+            <div class="face back">
+              ${fc.verso}
+            </div>
+          </div>
+        </label>
+        <p class="counter">Cartão ${i + 1} de ${flashcards.length}</p>
+      `;
+      cardArea.appendChild(cardDiv);
+    });
+
+    // 3. MESMO JS DE NAVEGAÇÃO E PONTOS
     const cards = Array.from(document.querySelectorAll(".card"));
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
@@ -364,6 +537,7 @@
       shakeCard();
     });
 
+    // mostrar primeiro
     showCard(current);
   </script>
 </body>
