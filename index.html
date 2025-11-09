@@ -135,14 +135,14 @@ body::after {
       text-shadow: 0 2px 8px rgba(0,0,0,.3);
       font-weight: 500;
     }
+    /* Botões de navegação (setas) */
 .nav-buttons {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 26px; /* espaço igual entre as setas */
+  gap: 26px; /* distância entre as duas setas */
   margin-top: 16px;
-  position: relative;
-  z-index: 2;
+  width: 100%;
 }
 
 .nav-buttons button {
@@ -157,17 +157,13 @@ body::after {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
   cursor: pointer;
   transition: background 0.3s ease, transform 0.1s ease;
-  position: relative;
-}
-
-.nav-buttons button:hover {
-  background: rgba(255, 255, 255, 0.75); /* leve destaque ao toque */
 }
 
 .nav-buttons button:active {
-  transform: scale(0.95); /* efeito de clique suave */
+  transform: scale(0.95);
 }
 
+/* Setas */
 .triangle-left,
 .triangle-right {
   width: 0;
@@ -178,42 +174,44 @@ body::after {
 .triangle-left {
   border-width: 12px 14px 12px 0;
   border-color: transparent #1f3bff transparent transparent;
-  margin-left: 4px;
 }
 
 .triangle-right {
   border-width: 12px 0 12px 14px;
   border-color: transparent transparent transparent #1f3bff;
-  margin-right: 4px;
 }
 
+/* Botões de acerto/erro (voltaram ao original) */
 .answer-buttons {
-  margin-top: 20px; /* espaçamento mais equilibrado abaixo das setas */
+  margin-top: 14px;
   display: flex;
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
 }
-    }
-    .btn-correct,
-    .btn-wrong {
-      border: none;
-      border-radius: 999px;
-      padding: 10px 24px 12px;
-      color: #fff;
-      font-weight: 600;
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      font-size: 1rem;
-      box-shadow: 0 6px 20px rgba(0,0,0,.18);
-      cursor: pointer;
-    }
-    .btn-correct {
-      background: #059669;
-    }
-    .btn-wrong {
-      background: #ef4444;
+
+.btn-correct,
+.btn-wrong {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 24px 12px;
+  color: #fff;
+  font-weight: 600;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 1rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+}
+
+.btn-correct {
+  background: #059669;
+}
+
+.btn-wrong {
+  background: #ef4444;
+}
     }
   </style>
 </head>
