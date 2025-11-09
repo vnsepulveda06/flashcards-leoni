@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>FLASHCARDS DO LEONI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #e5e7eb;
+      --card: #ffffff;
+      --highlight: #eef2ff;
+      --accent: #6366f1;
+      --green: #22c55e;
+      --red: #ef4444;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+    }
+    header {
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.05rem;
+      letter-spacing: 1px;
+    }
+    .score {
+      background: #fff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: .8rem;
+      box-shadow: 0 6px 20px rgba(15,23,42,.08);
+    }
+    .sub {
+      margin: 0;
+      font-size: .75rem;
+      color: #6b7280;
+      text-align: left;
+      width: 100%;
+      max-width: 460px;
+    }
+    .wrapper {
+      width: 100%;
+      max-width: 460px;
+    }
+    .card-area {
+      position: relative;
+      width: 100%;
+      min-height: 180px;
+    }
+    .card {
+      display: none;
+    }
+    .card.active {
+      display: block;
+    }
+    .flip-container {
+      position: relative;
+      width: 100%;
+      min-height: 170px;
+      perspective: 1000px;
+    }
+    .flip-container input[type="checkbox"] {
+      display: none;
+    }
+    .flip-card {
+      width: 100%;
+      min-height: 170px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform .6s;
+    }
+    .flip-container input[type="checkbox"]:checked + .flip-card {
+      transform: rotateY(180deg);
+    }
+    .face {
+      position: absolute;
+      inset: 0;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15,23,42,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 14px;
+      line-height: 1.4;
+      backface-visibility: hidden;
+    }
+    .face.back {
+      background: var(--highlight);
+      transform: rotateY(180deg);
+    }
+
+    .nav-buttons {
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .nav-buttons button {
+      width: 48px;
+      height: 48px;
+      background: #fff;
+      border: none;
+      border-radius: 999px;
+      font-size: 1.4rem;
+      box-shadow: 0 8px 20px rgba(15,23,42,0.08);
+      cursor: pointer;
+    }
+
+    .answer-buttons {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .answer-buttons button {
+      border: none;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: .78rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+    .btn-correct { background: var(--green); }
+    .btn-wrong { background: var(--red); }
+    .counter {
+      font-size: .7rem;
+      text-align: center;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FLASHCARDS DO LEONI</h1>
+    <div class="score" id="scoreBox">Pontos: 0</div>
+  </header>
+  <p class="sub">Toque no cartão para ver a resposta, depois marque se ele acertou ou errou.</p>
+
+  <div class="wrapper">
+    <div class="card-area" id="cardArea">
+      <div class="card active" data-index="0">
+        <label class="flip-container">
+          <input type="checkbox" />
+          <div class="flip-card">
+            <div class="face">
+              1) O que são meninges?
+            </div>
+            <div class="face back">
+              São três membranas que envolvem e protegem o encéfalo e a medula espinhal.
+            </div>
+          </div>
+        </label>
+        <p class="counter">Cartão 1 de 3</p>
+      </div>
+
+      <div class="card" data-index="1">
+        <label class="flip-container">
+          <input type="checkbox" />
+          <div class="flip-card">
+            <div class="face">
+              2) Qual a função do cerebelo?
+            </div>
+            <div class="face back">
+              Coordenar os movimentos e manter o equilíbrio do corpo.
+            </div>
+          </div>
+        </label>
+        <p class="counter">Cartão 2 de 3</p>
+      </div>
+
+      <div class="card" data-index="2">
+        <label class="flip-container">
+          <input type="checkbox" />
+          <div class="flip-card">
+            <div class="face">
+              3) Sistema nervoso periférico é formado por:
+            </div>
+            <div class="face back">
+              Nervos e gânglios nervosos (somático e autônomo).
+            </div>
+          </div>
+        </label>
+        <p class="counter">Cartão 3 de 3</p>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button id="prevBtn" aria-label="Anterior">◀</button>
+      <button id="nextBtn" aria-label="Próximo">▶</button>
+    </div>
+
+    <div class="answer-buttons">
+      <button class="btn-correct" id="correctBtn">✅ Acertou</button>
+      <button class="btn-wrong" id="wrongBtn">❌ Errou</button>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll(".card");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const correctBtn = document.getElementById("correctBtn");
+    const wrongBtn = document.getElementById("wrongBtn");
+    const scoreBox = document.getElementById("scoreBox");
+
+    let current = 0;
+    let score = 0;
+
+    function showCard(index) {
+      cards.forEach(c => {
+        c.classList.remove("active");
+        // desvira o cartão ao trocar
+        const chk = c.querySelector('input[type="checkbox"]');
+        if (chk) chk.checked = false;
+      });
+      cards[index].classList.add("active");
+    }
+
+    prevBtn.addEventListener("click", () => {
+      current = (current - 1 + cards.length) % cards.length;
+      showCard(current);
+    });
+
+    nextBtn.addEventListener("click", () => {
+      current = (current + 1) % cards.length;
+      showCard(current);
+    });
+
+    correctBtn.addEventListener("click", () => {
+      score += 1;
+      scoreBox.textContent = "Pontos: " + score;
+    });
+
+    wrongBtn.addEventListener("click", () => {
+      scoreBox.textContent = "Pontos: " + score;
+    });
+  </script>
+</body>
+</html>
